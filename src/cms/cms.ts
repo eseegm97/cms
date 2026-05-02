@@ -2,10 +2,10 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
+  selector: 'cms-root',
   imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  templateUrl: './cms.html',
+  styleUrl: './cms.css'
 })
 export class App {
   protected readonly title = signal('cms');
