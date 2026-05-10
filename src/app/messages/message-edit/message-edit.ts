@@ -13,7 +13,7 @@ export class MessageEdit {
 
   @Output() addMessageEvent = new EventEmitter<Message>();
 
-  currentSender = 'GitHub Copilot';
+  currentSender = 'Ethan Seegmiller';
 
   onSendMessage(): void {
     const subject = this.subjectInput.nativeElement.value;
