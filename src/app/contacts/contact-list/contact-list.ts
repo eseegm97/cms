@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { Contact } from '../contact.model';
+import { ContactItem } from '../contact-item/contact-item';
 
 @Component({
   selector: 'cms-contact-list',
-  imports: [NgFor],
+  imports: [NgFor, ContactItem],
   templateUrl: './contact-list.html',
   styleUrl: './contact-list.css',
 })
