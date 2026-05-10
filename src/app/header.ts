@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'cms-header',
@@ -7,9 +8,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styles: ``,
 })
 export class Header {
-  @Output() selectedFeatureEvent = new EventEmitter<string>();
+  constructor(private router: Router) {}
 
-  onSelected(selectedEvent: string) {
-    this.selectedFeatureEvent.emit(selectedEvent);
+  navigateTo(path: 'documents' | 'messages' | 'contacts') {
+    this.router.navigate([`/${path}`]);
   }
 }
