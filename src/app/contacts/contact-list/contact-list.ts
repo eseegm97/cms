@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { Contact } from '../contact.model';
 import { ContactItem } from '../contact-item/contact-item';
@@ -10,6 +10,12 @@ import { ContactItem } from '../contact-item/contact-item';
   styleUrl: './contact-list.css',
 })
 export class ContactList {
+  @Output() selectedContactEvent = new EventEmitter<Contact>();
+
+  onSelected(contact: Contact) {
+    this.selectedContactEvent.emit(contact);
+  }
+
   contacts: Contact[] = [
     new Contact(
       '1',
