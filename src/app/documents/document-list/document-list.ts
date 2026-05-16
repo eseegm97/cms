@@ -1,10 +1,11 @@
+import { NgFor } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { DocumentItem } from "../document-item/document-item";
 import { Document } from '../document.model';
 
 @Component({
   selector: 'cms-document-list',
-  imports: [DocumentItem],
+  imports: [NgFor, DocumentItem],
   templateUrl: './document-list.html',
   styleUrl: './document-list.css',
 })
