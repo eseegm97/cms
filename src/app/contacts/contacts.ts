@@ -11,5 +11,5 @@ import { Contact } from './contact.model';
   styleUrl: './contacts.css',
 })
 export class Contacts {
-  selectedContact: Contact = new Contact('', '', '', '', '', null);
+  selectedContact: Contact = new Contact('', '', '', '', '', []);
 }
