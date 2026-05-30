@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DropdownDirective } from './dropdown.directive';
 
 @Component({
   selector: 'cms-header',
-  imports: [DropdownDirective],
+  imports: [DropdownDirective, RouterLink, RouterLinkActive],
   templateUrl: './header.html',
   styles: `
     .dropdown.open .dropdown-menu {
@@ -13,9 +13,4 @@ import { DropdownDirective } from './dropdown.directive';
   `,
 })
 export class Header {
-  constructor(private router: Router) {}
-
-  navigateTo(path: 'documents' | 'messages' | 'contacts') {
-    this.router.navigate([`/${path}`]);
-  }
 }
