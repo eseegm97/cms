@@ -33,4 +33,9 @@ export class DocumentDetail implements OnInit {
     const url = this.document.url;
     this.nativeWindow.open(url);
   }
+
+  onDelete() {
+    this.documentService.deleteDocument(this.document);
+    this.router.navigate(['/documents']);
+  }
 }
