@@ -3,7 +3,7 @@
 		<h3 class="panel-title pull-left">{{ contact.name }}</h3>
 		<div class="pull-right">
 			<a [routerLink]="['/contacts', contact.id, 'edit']" class="btn btn-primary">Edit</a>
-			<a href="#" class="btn btn-danger">Delete</a>
+			<a href="#" class="btn btn-danger" (click)="onDelete(); $event.preventDefault()">Delete</a>
 		</div>
 		<img
 			[src]="contact.imageUrl"
