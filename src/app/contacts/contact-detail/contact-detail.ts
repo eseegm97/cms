@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Contact } from '../contact.model';
 import { ContactService } from '../contact';
 
@@ -14,6 +14,7 @@ export class ContactDetail implements OnInit {
 
   constructor(
     private contactService: ContactService,
+    private router: Router,
     private route: ActivatedRoute
   ) {}
 
