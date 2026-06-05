@@ -53,6 +53,20 @@ export class Document {
     this.documentListChangedEvent.next(documentsListClone);
   }
 
+  updateDocument(originalDocument: DocumentModel, newDocument: DocumentModel) {
+    if (!originalDocument || !newDocument) {
+      return;
+    }
+    const pos = this.documents.indexOf(originalDocument);
+    if (pos < 0) {
+      return;
+    }
+    newDocument.id = originalDocument.id;
+    this.documents[pos] = newDocument;
+    const documentsListClone = this.documents.slice();
+    this.documentListChangedEvent.next(documentsListClone);
+  }
+
   deleteDocument(document: DocumentModel) {
     if (!document) {
       return;
