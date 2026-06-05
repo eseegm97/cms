@@ -1,5 +1,6 @@
+import { Subscription } from 'rxjs';
 import { NgFor } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DocumentItem } from "../document-item/document-item";
 import { Document } from '../document.model';
@@ -11,19 +12,23 @@ import { Document as DocumentService } from '../document';
   templateUrl: './document-list.html',
   styleUrl: './document-list.css',
 })
-export class DocumentList implements OnInit {
+export class DocumentList implements OnInit, OnDestroy {
+  subscription!: Subscription;
   documents: Document[] = [];
 
   constructor(private documentService: DocumentService) {}
 
   ngOnInit() {
     this.documents = this.documentService.getDocuments();
-    this.documentService.documentChangedEvent.subscribe(
-      (documents: Document[]) => {
-        this.documents = documents;
+    this.subscription = this.documentService.documentListChangedEvent.subscribe(
+      (documentsList: Document[]) => {
+        this.documents = documentsList;
       }
     );
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
 }
