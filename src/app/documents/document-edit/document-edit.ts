@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Document } from '../document.model';
 import { Document as DocumentService } from '../document';
@@ -14,9 +15,28 @@ export class DocumentEdit implements OnInit {
   document: Document = new Document('', '', '', '', null);
   editMode: boolean = false;
 
-  constructor(private documentService: DocumentService) {}
+  constructor(
+    private documentService: DocumentService,
+    private router: Router,
+    private route: ActivatedRoute) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params.subscribe(
+      (params: Params) => {
+        const id = params['id'];
+        if (id === undefined || id === null) {
+          this.editMode = false;
+          return;
+        }
+        this.originalDocument = this.documentService.getDocument(id)!;
+        if (this.originalDocument === undefined || this.originalDocument === null) {
+          return;
+        }
+        this.editMode = true;
+        this.document = JSON.parse(JSON.stringify(this.originalDocument));
+      }
+    );
+  }
 
   onSubmit(form: NgForm): void {
     const value = form.value;
@@ -26,10 +46,10 @@ export class DocumentEdit implements OnInit {
     } else {
       this.documentService.addDocument(newDocument);
     }
-    this.onCancel();
+    this.router.navigate(['/documents']);
   }
 
   onCancel(): void {
-    this.editMode = false;
+    this.router.navigate(['/documents']);
   }
 }
