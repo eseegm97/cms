@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-body">
-    <form id="contact-edit">
+    <form id="contact-edit" #f="ngForm" (ngSubmit)="onSubmit(f)">
       <div class="row">
         <div class="col-sm-12 form-group">
           <label for="name">Name:</label>
@@ -9,7 +9,11 @@
             id="name"
             class="form-control required"
             size="120"
-            max="120">
+            max="120"
+            name="name"
+            required
+            #name="ngModel"
+            [ngModel]="contact?.name">
         </div>
       </div>
 
@@ -21,7 +25,13 @@
             id="email"
             class="form-control required"
             size="120"
-            max="255">
+            max="255"
+            name="email"
+            required
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+            #email="ngModel"
+            [ngModel]="contact?.email">
+          <div class="alert alert-danger" *ngIf="email.touched && !email.valid">Enter a valid Email address</div>
         </div>
       </div>
 
@@ -33,8 +43,12 @@
             id="phone"
             class="form-control invalid"
             size="150"
-            max="255">
-
+            max="255"
+            name="phone"
+            pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*"
+            #phone="ngModel"
+            [ngModel]="contact?.phone">
+          <div class="alert alert-danger" *ngIf="phone.touched && !phone.valid">Enter a valid phone number</div>
         </div>
       </div>
 
@@ -46,7 +60,10 @@
             id="imageUrl"
             class="form-control"
             size="150"
-            max="255">
+            max="255"
+            name="imageUrl"
+            #imageUrl="ngModel"
+            [ngModel]="contact?.imageUrl">
         </div>
       </div>
 
@@ -70,9 +87,14 @@
       </div>
 
 
+      <div class="alert alert-danger"
+        *ngIf="(name.untouched && !name.valid) || (email.untouched && !email.valid)">
+        The Name and Email fields are required.
+      </div>
+
       <div class="row">
         <div class="col-xs-12 btn-toolbar">
-          <button class="btn btn-success" type="submit">Save</button>
+          <button class="btn btn-success" type="submit" [disabled]="f.invalid">Save</button>
           <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
         </div>
       </div>
