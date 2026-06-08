@@ -13,7 +13,7 @@
             name="name"
             required
             #name="ngModel"
-            [ngModel]="contact?.name">
+            [ngModel]="contact.name">
         </div>
       </div>
 
@@ -30,7 +30,7 @@
             required
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
             #email="ngModel"
-            [ngModel]="contact?.email">
+            [ngModel]="contact.email">
           <div class="alert alert-danger" *ngIf="email.touched && !email.valid">Enter a valid Email address</div>
         </div>
       </div>
@@ -47,7 +47,7 @@
             name="phone"
             pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*"
             #phone="ngModel"
-            [ngModel]="contact?.phone">
+            [ngModel]="contact.phone">
           <div class="alert alert-danger" *ngIf="phone.touched && !phone.valid">Enter a valid phone number</div>
         </div>
       </div>
@@ -63,7 +63,7 @@
             max="255"
             name="imageUrl"
             #imageUrl="ngModel"
-            [ngModel]="contact?.imageUrl">
+            [ngModel]="contact.imageUrl">
         </div>
       </div>
 
