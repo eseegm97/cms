@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './document-edit.html',
   styleUrl: './document-edit.css',
 })
-export class DocumentEdit {}
+export class DocumentEdit {
+  onCancel() {}
+}
