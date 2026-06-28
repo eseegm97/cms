@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Message } from './message.model';
-import { MOCKMESSAGES } from './MOCKMESSAGES';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +9,31 @@ export class MessageService {
   messageChangedEvent = new EventEmitter<Message[]>();
   messages: Message[] = [];
 
-  constructor() {
-    this.messages = MOCKMESSAGES;
+  constructor(private http: HttpClient) {
+    this.fetchMessages();
+  }
+
+  fetchMessages() {
+    this.http
+      .get<Message[]>(
+        'https://cms-wdd430-86c22-default-rtdb.firebaseio.com/messages.json'
+      )
+      .subscribe((messages: Message[]) => {
+        this.messages = messages ?? [];
+        this.messageChangedEvent.emit(this.messages.slice());
+      });
+  }
+
+  storeMessages() {
+    this.http
+      .put(
+        'https://cms-wdd430-86c22-default-rtdb.firebaseio.com/messages.json',
+        JSON.stringify(this.messages),
+        { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+      )
+      .subscribe(() => {
+        this.messageChangedEvent.emit(this.messages.slice());
+      });
   }
 
   getMessages(): Message[] {
@@ -28,6 +51,6 @@ export class MessageService {
 
   addMessage(message: Message) {
     this.messages.push(message);
-    this.messageChangedEvent.emit(this.messages.slice());
+    this.storeMessages();
   }
 }
