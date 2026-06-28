@@ -22,14 +22,19 @@ export class Document {
       .get<DocumentModel[]>(
         'https://cms-wdd430-86c22-default-rtdb.firebaseio.com/documents.json'
       )
-      .subscribe((documents: DocumentModel[]) => {
-        this.documents = documents ?? [];
-        this.maxDocumentId = this.getMaxId();
-        this.documents.sort((a, b) =>
-          a.name < b.name ? -1 : a.name > b.name ? 1 : 0
-        );
-        this.documentListChangedEvent.next(this.documents.slice());
-      });
+      .subscribe(
+        (documents: DocumentModel[]) => {
+          this.documents = documents ?? [];
+          this.maxDocumentId = this.getMaxId();
+          this.documents.sort((a, b) =>
+            a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+          );
+          this.documentListChangedEvent.next(this.documents.slice());
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
   }
 
   storeDocuments() {
