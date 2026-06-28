@@ -5,14 +5,16 @@ import { RouterLink } from '@angular/router';
 import { Contact } from '../contact.model';
 import { ContactItem } from '../contact-item/contact-item';
 import { ContactService } from '../contact';
+import { ContactsFilterPipe } from '../contacts-filter-pipe';
 
 @Component({
   selector: 'cms-contact-list',
-  imports: [NgFor, RouterLink, ContactItem],
+  imports: [NgFor, RouterLink, ContactItem, ContactsFilterPipe],
   templateUrl: './contact-list.html',
   styleUrl: './contact-list.css',
 })
 export class ContactList implements OnInit, OnDestroy {
+  term: string = '';
   subscription!: Subscription;
   contacts: Contact[] = [];
 
@@ -29,5 +31,9 @@ export class ContactList implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  search(value: string) {
+    this.term = value;
   }
 }
