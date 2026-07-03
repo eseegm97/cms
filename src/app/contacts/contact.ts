@@ -22,14 +22,19 @@ export class ContactService {
       .get<Contact[]>(
         'https://cms-wdd430-86c22-default-rtdb.firebaseio.com/contacts.json'
       )
-      .subscribe((contacts: Contact[]) => {
-        this.contacts = contacts ?? [];
-        this.maxContactId = this.getMaxId();
-        this.contacts.sort((a, b) =>
-          a.name < b.name ? -1 : a.name > b.name ? 1 : 0
-        );
-        this.contactListChangedEvent.next(this.contacts.slice());
-      });
+      .subscribe(
+        (contacts: Contact[]) => {
+          this.contacts = contacts ?? [];
+          this.maxContactId = this.getMaxId();
+          this.contacts.sort((a, b) =>
+            a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+          );
+          this.contactListChangedEvent.next(this.contacts.slice());
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
   }
 
   storeContacts() {
