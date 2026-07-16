@@ -122,7 +122,7 @@ export class Document {
     this.http.put('http://localhost:3000/documents/' + originalDocument.id,
       newDocument, { headers: headers })
       .subscribe(
-        (response: Response) => {
+        () => {
           this.documents[pos] = newDocument;
           this.sortAndSend();
         }
@@ -144,7 +144,7 @@ export class Document {
     // delete from database
     this.http.delete('http://localhost:3000/documents/' + document.id)
       .subscribe(
-        (response: Response) => {
+        () => {
           this.documents.splice(pos, 1);
           this.sortAndSend();
         }

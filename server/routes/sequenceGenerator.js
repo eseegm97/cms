@@ -6,20 +6,28 @@ var maxContactId;
 var sequenceId = null;
 
 function SequenceGenerator() {
-
   Sequence.findOne()
-    .exec(function(err, sequence) {
-      if (err) {
-        return res.status(500).json({
-          title: 'An error occurred',
-          error: err
+    .then(function(sequence) {
+      if (!sequence) {
+        var sequenceItem = new Sequence({
+          maxDocumentId: 0,
+          maxMessageId: 0,
+          maxContactId: 0
         });
+
+        return sequenceItem.save();
       }
 
+      return sequence;
+    })
+    .then(function(sequence) {
       sequenceId = sequence._id;
       maxDocumentId = sequence.maxDocumentId;
       maxMessageId = sequence.maxMessageId;
       maxContactId = sequence.maxContactId;
+    })
+    .catch(function(err) {
+      console.log('Sequence initialization error = ' + err);
     });
 }
 
@@ -48,12 +56,13 @@ SequenceGenerator.prototype.nextId = function(collectionType) {
       return -1;
   }
 
-  Sequence.update({_id: sequenceId}, {$set: updateObject},
-    function(err) {
-      if (err) {
-        console.log("nextId error = " + err);
-        return null
-      }
+  if (!sequenceId) {
+    return nextId;
+  }
+
+  Sequence.updateOne({_id: sequenceId}, {$set: updateObject})
+    .catch(function(err) {
+      console.log("nextId error = " + err);
     });
 
   return nextId;
