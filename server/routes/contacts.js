@@ -5,6 +5,7 @@ const Contact = require('../models/contact');
 
 router.get('/', (req, res, next) => {
   Contact.find()
+    .populate('group')
     .then(contacts => {
       res.status(200).json({
         message: 'Contacts fetched successfully',

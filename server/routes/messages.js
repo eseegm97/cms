@@ -5,6 +5,7 @@ const Message = require('../models/message');
 
 router.get('/', (req, res, next) => {
   Message.find()
+    .populate('sender')
     .then(messages => {
       res.status(200).json({
         message: 'Messages fetched successfully',

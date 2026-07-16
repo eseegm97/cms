@@ -5,6 +5,7 @@ const Document = require('../models/document');
 
 router.get('/', (req, res, next) => {
   Document.find()
+    .populate('children')
     .then(documents => {
       res.status(200).json({
         message: 'Documents fetched successfully',
