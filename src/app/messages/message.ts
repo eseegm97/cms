@@ -16,12 +16,10 @@ export class MessageService {
 
   fetchMessages() {
     this.http
-      .get<Message[]>(
-        'https://cms-wdd430-86c22-default-rtdb.firebaseio.com/messages.json'
-      )
+      .get<{ message: string, messages: Message[] }>('http://localhost:3000/messages')
       .subscribe(
-        (messages: Message[]) => {
-          this.messages = messages ?? [];
+        (responseData) => {
+          this.messages = responseData.messages ?? [];
           this.maxMessageId = this.getMaxId();
           this.messageChangedEvent.emit(this.messages.slice());
         },
@@ -29,6 +27,10 @@ export class MessageService {
           console.log(error);
         }
       );
+  }
+
+  sortAndSend() {
+    this.messageChangedEvent.emit(this.messages.slice());
   }
 
   storeMessages() {
@@ -71,9 +73,21 @@ export class MessageService {
     if (!message) {
       return;
     }
-    this.maxMessageId++;
-    message.id = this.maxMessageId.toString();
-    this.messages.push(message);
-    this.storeMessages();
+
+    // make sure id of the new Message is empty
+    message.id = '';
+
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    // add to database
+    this.http.post<{ message: Message }>('http://localhost:3000/messages',
+      message,
+      { headers: headers })
+      .subscribe(
+        (responseData) => {
+          this.messages.push(responseData.message);
+          this.sortAndSend();
+        }
+      );
   }
 }

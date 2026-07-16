@@ -19,10 +19,10 @@ export class Document {
 
   fetchDocuments() {
     this.http
-      .get<DocumentModel[]>('http://localhost:3000/documents')
+      .get<{ message: string, documents: DocumentModel[] }>('http://localhost:3000/documents')
       .subscribe(
-        (documents: DocumentModel[]) => {
-          this.documents = documents ?? [];
+        (responseData) => {
+          this.documents = responseData.documents ?? [];
           this.maxDocumentId = this.getMaxId();
           this.documents.sort((a, b) =>
             a.name < b.name ? -1 : a.name > b.name ? 1 : 0
